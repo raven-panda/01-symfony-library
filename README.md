@@ -1,6 +1,6 @@
 # Library project - Symfony
 
-This project aims to create a simple library application.\
+This project aims to create a simple library application. A user can register/login and order any book. \
 It will support CRUD of books, authors and genres categories.
 
 ## Specifications
