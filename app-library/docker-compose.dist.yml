@@ -13,12 +13,17 @@ services:
       - MYSQL_USER=api_user
       - MYSQL_PASSWORD=api_user_password
 
-    # The volume will prevent data loss (unless the volume is corrupted or destroyed), as it will be used when restarting a docker compose,
-    # even if the `database` service is deleted.
     volumes:
+      # The volume will prevent data loss (unless the volume is corrupted or destroyed), as it will be used when restarting a docker compose,
+      # even if the `database` service is deleted.
       - type: volume
         source: apidb
         target: /var/lib/mysql
+      # The bind volume allow you to bind data from your host machine into your service, here I use it to bind the SQL entrypoint script
+      # into the docker entrypoint directory. 
+      - type: bind
+        source: ./.database/
+        target: /docker-entrypoint-initdb.d/
 
     # Ports binding, you will use 3307 port to access the database in this configuration.
     # The left one is the port from where you will access to the service from your host, and the right one is the port that MySQL use as an entrypoint inside the container.
