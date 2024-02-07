@@ -36,14 +36,6 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end_date = null;
 
-    #[ORM\OneToMany(targetEntity: OrderBook::class, mappedBy: 'order', orphanRemoval: true)]
-    private Collection $orderBooks;
-
-    public function __construct()
-    {
-        $this->orderBooks = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -117,36 +109,6 @@ class Order
     public function setEndDate(\DateTimeInterface $end_date): static
     {
         $this->end_date = $end_date;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, OrderBook>
-     */
-    public function getOrderBooks(): Collection
-    {
-        return $this->orderBooks;
-    }
-
-    public function addOrderBook(OrderBook $orderBook): static
-    {
-        if (!$this->orderBooks->contains($orderBook)) {
-            $this->orderBooks->add($orderBook);
-            $orderBook->setOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderBook(OrderBook $orderBook): static
-    {
-        if ($this->orderBooks->removeElement($orderBook)) {
-            // set the owning side to null (unless already changed)
-            if ($orderBook->getOrder() === $this) {
-                $orderBook->setOrder(null);
-            }
-        }
 
         return $this;
     }

@@ -43,13 +43,9 @@ class Book
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $added_at = null;
 
-    #[ORM\OneToMany(targetEntity: OrderBook::class, mappedBy: 'book')]
-    private Collection $orderBooks;
-
     public function __construct()
     {
         $this->genre = new ArrayCollection();
-        $this->orderBooks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,36 +169,6 @@ class Book
     public function setAddedAt(\DateTimeImmutable $added_at): static
     {
         $this->added_at = $added_at;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, OrderBook>
-     */
-    public function getOrderBooks(): Collection
-    {
-        return $this->orderBooks;
-    }
-
-    public function addOrderBook(OrderBook $orderBook): static
-    {
-        if (!$this->orderBooks->contains($orderBook)) {
-            $this->orderBooks->add($orderBook);
-            $orderBook->setBookId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderBook(OrderBook $orderBook): static
-    {
-        if ($this->orderBooks->removeElement($orderBook)) {
-            // set the owning side to null (unless already changed)
-            if ($orderBook->getBook() === $this) {
-                $orderBook->setBook(null);
-            }
-        }
 
         return $this;
     }
