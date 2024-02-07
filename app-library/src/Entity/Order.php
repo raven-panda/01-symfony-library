@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +22,7 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
@@ -33,6 +35,14 @@ class Order
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end_date = null;
+
+    #[ORM\OneToMany(targetEntity: OrderBook::class, mappedBy: 'order', orphanRemoval: true)]
+    private Collection $orderBooks;
+
+    public function __construct()
+    {
+        $this->orderBooks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,14 +61,14 @@ class Order
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -107,6 +117,36 @@ class Order
     public function setEndDate(\DateTimeInterface $end_date): static
     {
         $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderBook>
+     */
+    public function getOrderBooks(): Collection
+    {
+        return $this->orderBooks;
+    }
+
+    public function addOrderBook(OrderBook $orderBook): static
+    {
+        if (!$this->orderBooks->contains($orderBook)) {
+            $this->orderBooks->add($orderBook);
+            $orderBook->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderBook(OrderBook $orderBook): static
+    {
+        if ($this->orderBooks->removeElement($orderBook)) {
+            // set the owning side to null (unless already changed)
+            if ($orderBook->getOrder() === $this) {
+                $orderBook->setOrder(null);
+            }
+        }
 
         return $this;
     }
