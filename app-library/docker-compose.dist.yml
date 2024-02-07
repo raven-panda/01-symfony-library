@@ -2,8 +2,8 @@ version: '3.2'
 services:
   # The database service
   database:
-    # The Docker image of MySQL, see https://hub.docker.com/_/mysql for more informations
-    image: mysql
+    # The Docker image of MySQL version 8.0.32, see https://hub.docker.com/_/mysql for more informations
+    image: mysql:8.0.32
 
     # Here we'll define all environments variables used by MySQL (root password, user and user password).
     # I recommend to change them.
