@@ -13,6 +13,10 @@ I use MySQL to create and run the database. Ran on a Docker service with a docke
 
 To create a schematized diagram of the database, I use MySQL Workbench.
 
+### PHP 8.2.9
+
+This project is created with a PHP framework, so I use PHP 8.2.9.
+
 ### Symfony 7.0.3
 
 The application is built with the framework **Symfony 7.0.3**, and I use **Symfony CLI 5.8.4** to run symfony commands.
@@ -43,17 +47,19 @@ git clone https://github.com/raven-panda/01-symfony-library.git
 
 2. Download and install Docker Desktop at https://docs.docker.com/engine/install/
 
-3. Download and install Composer at https://getcomposer.org/download/
+3. Download and install PHP at https://www.php.net/downloads
 
-4. Download and install Symfony CLI at https://symfony.com/download (note that if you use windows, you will need to install scoop first)
+4. Download and install Composer at https://getcomposer.org/download/
 
-5. Run docker compose
+5. Download and install Symfony CLI at https://symfony.com/download (note that if you use windows, you will need to install scoop first)
+
+6. Run docker compose
 
 ```bash
 docker compose up
 ```
 
-6. Run the Symfony local server
+7. Run the Symfony local server
 ```bash
 cd ./app-library
 symfony server:start
