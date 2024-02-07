@@ -1,0 +1,36 @@
+version: '3.2'
+services:
+  # The database service
+  database:
+    # The Docker image of MySQL, see https://hub.docker.com/_/mysql for more informations
+    image: mysql
+
+    # Here we'll define all environments variables used by MySQL (root password, user and user password).
+    # I recommend to change them.
+    # You can also use a separate env file to bind env variables (use `env_file` with the path of your file instead of `environment`).
+    environment:
+      - MYQSL_ROOT_PASSWORD=root_password
+      - MYSQL_USER=api_user
+      - MYSQL_PASSWORD=api_user_password
+
+    # The volume will prevent data loss (unless the volume is corrupted or destroyed), as it will be used when restarting a docker compose,
+    # even if the `database` service is deleted.
+    volumes:
+      - type: volume
+        source: apidb
+        target: /var/lib/mysql
+
+    # Ports binding, you will use 3307 port to access the database in this configuration.
+    # The left one is the port from where you will access to the service from your host, and the right one is the port that MySQL use as an entrypoint inside the container.
+    # You can change the left one if you like, but don't forget to change it in your `.env` file too.
+    ports:
+      - 3307:3306
+
+  # The mail catch-all service
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+volumes:
+  apidb:
