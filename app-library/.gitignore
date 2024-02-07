@@ -24,3 +24,8 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> docker compose ###
+/docker-compose.yml
+/docker-compose.prod.yml
+###< docker compose ###
