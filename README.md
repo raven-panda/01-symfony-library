@@ -53,14 +53,31 @@ git clone https://github.com/raven-panda/01-symfony-library.git
 
 5. Download and install Symfony CLI at https://symfony.com/download (note that if you use windows, you will need to install scoop first)
 
-6. Run docker compose
+6. Open your terminal into the project directory
+
+```bash
+cd /path/to/the/project/app-library
+```
+
+7. Check requirements to see if your environment meets all requirements to run a Symfony project.
+
+```bash
+symfony check:requirements
+```
+
+8. Install dependencies
+
+```bash
+composer install
+```
+
+9. Run the Symfony local server (skip this if you use )
+```bash
+symfony server:start
+```
+
+10. Run docker compose
 
 ```bash
 docker compose up
-```
-
-7. Run the Symfony local server
-```bash
-cd ./app-library
-symfony server:start
 ```
