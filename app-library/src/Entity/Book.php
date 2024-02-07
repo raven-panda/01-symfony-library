@@ -19,7 +19,7 @@ class Book
     #[ORM\Column(length: 60)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 13)]
+    #[ORM\Column(length: 13, unique: true)]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 50)]
@@ -39,6 +39,9 @@ class Book
 
     #[ORM\ManyToMany(targetEntity: BookGenre::class, inversedBy: 'books')]
     private Collection $genre;
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $added_at = null;
 
     public function __construct()
     {
@@ -154,6 +157,18 @@ class Book
     public function removeGenre(BookGenre $genre): static
     {
         $this->genre->removeElement($genre);
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeImmutable
+    {
+        return $this->added_at;
+    }
+
+    public function setAddedAt(\DateTimeImmutable $added_at): static
+    {
+        $this->added_at = $added_at;
 
         return $this;
     }
